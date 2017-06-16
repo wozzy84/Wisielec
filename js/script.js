@@ -1,13 +1,22 @@
+
+
+
 var guess;
 var word;
-var litera = "j";
-var tablica = []
+
+var tablica;
 let words = window.words;
 let gameState = {
     incorrectGuesses: [],
     guessesRemaining: 7
 };
 
+
+ $("#sub").on("click", function(){ 
+    
+    testGuess();
+  
+    })  
 
 function update () {
     $("#inc").text(gameState.incorrectGuesses.length);
@@ -22,6 +31,7 @@ function chooseWord() {
 }
 
 
+
 function createWordTiles() {
     $(".letter").remove();
     for (i = 0; i < word.length; i++) {
@@ -31,63 +41,74 @@ function createWordTiles() {
 
 
 
-function validate() {
-    if (guess.length == 1) {
-        return true
-    } else {
-        return false
-    }
-}
 
 
 
-function testGuess(guess) {
+function testGuess() {
+    var litera = $("#guess").val(); 
     var tablica = []
+    
+    function validate() {
+    if (litera.length === 1) {   
+        return true
+        } else {
+            return false; alert("hello");
+            }       
+    }
+
     for (var i = 0; i < word.length; i++) {
         if (word[i] === litera) {
             tablica.push(i)
-        };
-    }
-    
-};
-
-
-function updateWordTiles(indices) {
-    var specifiedLetter = "k";
-    var individualLetters = word.split('');
-    var matches = [];
-    for (i = 0; i < individualLetters.length; i++) {
-        if (individualLetters[i] == specifiedLetter)
-            matches[matches.length] = i;
-    }
-    for (i = 0; i < matches.length; i++) {
-        {
-            $("#" + matches[i]).text("k")
         }
-    }
-}
-
-function updateScoreboard (tablica) {
-    if(true && gameState.guessesRemaining > 0) {
+        }
+    console.log(tablica);
+    updateWordTiles();
+    
+    function updateScoreboard (tablica) { 
+    if( tablica.length  === 0 && gameState.guessesRemaining > 0) {
     gameState.incorrectGuesses.push("a"); gameState.guessesRemaining--;
     } 
     $("#inc").text(gameState.incorrectGuesses.length);
     $("#rem").text(gameState.guessesRemaining);
 
+    }
+ 
+};
+
+
+function updateWordTiles() {
+    var litera = $("#guess").val(); 
+    var individualLetters = word.split('');
+    var matches = [];
+        for (i = 0; i < individualLetters.length; i++) {
+        if (individualLetters[i] == litera)
+            matches[matches.length] = i;
+        }
+        for (i = 0; i < matches.length; i++) {
+        
+            $("#" + matches[i]).text(litera)
+        }
+    }
+
+
+
+
+
+
+
+
+function listen() {
+
 }
 
 
+$("#init").on("click", function () {
+    update();
+    chooseWord();
+    createWordTiles()
+    }
+)
 
 
-function listen() { 
-    
-       
-}
 
 
-function init() {
-
-}
-
-
-$("#sub").on("click", function(){alert("hello")});
